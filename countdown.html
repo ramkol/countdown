@@ -3,19 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to September 1st</title>
+    <title>Countdown Timer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: background-color 0.5s;
         }
         #countdown {
-            font-size: 2rem;
+            font-size: 3rem;
+            color: #333;
+            transition: color 0.5s;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Countdown to September 1st, 8:00 AM</h1>
+    <h1>Countdown Timer</h1>
+    
+    <label for="units">Select Countdown Unit:</label>
+    <select id="units">
+        <option value="days">Days</option>
+        <option value="hours">Hours</option>
+        <option value="minutes">Minutes</option>
+        <option value="seconds">Seconds</option>
+    </select>
+
     <div id="countdown"></div>
 
     <script>
@@ -24,12 +51,28 @@
             const currentDate = new Date().getTime();
             const timeLeft = targetDate - currentDate;
 
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            const units = document.getElementById("units").value;
+            let value;
 
-            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            if (units === "days") {
+                value = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            } else if (units === "hours") {
+                value = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            } else if (units === "minutes") {
+                value = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            } else if (units === "seconds") {
+                value = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            }
+
+            document.getElementById("countdown").innerHTML = `${value} ${units}`;
+
+            // Change background color and text color as the countdown gets closer
+            const daysLeft = timeLeft / (1000 * 60 * 60 * 24);
+            const backgroundColor = `rgb(${255 - daysLeft * 20}, ${255 - daysLeft * 10}, 255)`;
+            const textColor = daysLeft < 10 ? "#fff" : "#333";
+
+            document.body.style.backgroundColor = backgroundColor;
+            document.getElementById("countdown").style.color = textColor;
         }
 
         setInterval(updateCountdown, 1000);
