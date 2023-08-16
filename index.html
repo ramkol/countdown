@@ -31,19 +31,15 @@
         }
         #progress-container {
             width: 80%;
-            max-width: 400px;
+            max-width: 600px; /* Wider progress bar */
             margin-top: 20px;
-        }
-        .progress-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
             background-color: #f0f0f0;
             border: 1px solid #ddd;
             border-radius: 4px;
             overflow: hidden;
         }
-        .progress-bar {
+        #progress-bar {
+            width: 0;
             height: 20px;
             background-color: #007bff;
         }
@@ -66,15 +62,15 @@
 
     <div id="countdown"></div>
 
-    <div id="progress-container"></div>
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
 
     <script>
         function updateCountdown() {
             const targetDate = new Date("September 1, 2023 08:00:00").getTime();
             const currentDate = new Date().getTime();
             const timeLeft = targetDate - currentDate;
-            const totalDays = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
-            const daysElapsed = Math.ceil((currentDate - new Date("August 15, 2023 13:30:00").getTime()) / (1000 * 60 * 60 * 24));
 
             const units = document.getElementById("units").value;
             let value;
@@ -86,32 +82,17 @@
             } else if (units === "hours") {
                 value = Math.floor(timeLeft / (1000 * 60 * 60));
             } else if (units === "days") {
-                value = totalDays;
+                value = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
             }
 
             document.getElementById("countdown").innerHTML = `${value} ${units}`;
 
             // Update progress bar
-            const progressContainer = document.getElementById("progress-container");
-            progressContainer.innerHTML = '';
-
-            for (let i = 0; i < totalDays; i++) {
-                const progressBar = document.createElement("div");
-                progressBar.className = "progress-bar";
-                progressBar.style.width = `${(100 / totalDays).toFixed(2)}%`;
-
-                const dateLabel = document.createElement("div");
-                dateLabel.className = "date-label";
-                const date = new Date(currentDate + (i - daysElapsed) * (1000 * 60 * 60 * 24));
-                dateLabel.textContent = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-                
-                const progressRow = document.createElement("div");
-                progressRow.className = "progress-row";
-                progressRow.appendChild(progressBar);
-                progressRow.appendChild(dateLabel);
-
-                progressContainer.appendChild(progressRow);
-            }
+            const progressBar = document.getElementById("progress-bar");
+            const totalDuration = new Date("September 1, 2023 08:00:00").getTime() - new Date("August 15, 2023 13:30:00").getTime();
+            const elapsedPercentage = Math.min((currentDate - new Date("August 15, 2023 13:30:00").getTime()) / totalDuration * 100, 100);
+            
+            progressBar.style.width = `${elapsedPercentage}%`;
         }
 
         setInterval(updateCountdown, 1000);
