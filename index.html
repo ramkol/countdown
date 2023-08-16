@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
+    <title>כמה עוד?</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,12 +36,14 @@
             background-color: #f0f0f0;
             border: 1px solid #ddd;
             border-radius: 4px;
-            overflow: hidden;
+            padding: 10px;
+            box-sizing: border-box;
         }
         #progress-bar {
             width: 0;
             height: 20px;
             background-color: #007bff;
+            border-radius: 4px;
         }
         .date-label {
             font-size: 12px;
@@ -50,9 +52,9 @@
     </style>
 </head>
 <body>
-    <h1>Countdown Timer</h1>
+    <h1>עוד...</h1>
     
-    <label for="units">Select Countdown Unit:</label>
+    <label for="units">יחידת זמן:</label>
     <select id="units">
         <option value="seconds">Seconds</option>
         <option value="minutes">Minutes</option>
@@ -63,7 +65,9 @@
     <div id="countdown"></div>
 
     <div id="progress-container">
+        <div class="date-label">Start: August 15, 2023 13:30:00</div>
         <div id="progress-bar"></div>
+        <div class="date-label">End: September 1, 2023 08:00:00</div>
     </div>
 
     <script>
