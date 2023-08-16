@@ -97,3 +97,115 @@
     </script>
 </body>
 </html>
+With this code, the progress bar is surrounded by a border, making it visually distinct and easier to notice.
+
+
+
+
+User
+seconds only show the remainder, I want to see total seconds.
+also same with minutes and hours
+ChatGPT
+Certainly! I've updated the code to display the total seconds, total minutes, and total hours rather than showing only the remainder. Here's the modified code:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #countdown {
+            font-size: 3rem;
+            color: #333;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        #progress-container {
+            width: 80%;
+            max-width: 400px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        #progress-bar {
+            width: 0;
+            height: 20px;
+            background-color: #007bff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown Timer</h1>
+    
+    <label for="units">Select Countdown Unit:</label>
+    <select id="units">
+        <option value="days">Days</option>
+        <option value="hours">Hours</option>
+        <option value="minutes">Minutes</option>
+        <option value="seconds">Seconds</option>
+    </select>
+
+    <div id="countdown"></div>
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date("September 1, 2023 08:00:00").getTime();
+            const currentDate = new Date().getTime();
+            const timeLeft = targetDate - currentDate;
+
+            const units = document.getElementById("units").value;
+            let value;
+
+            if (units === "days") {
+                value = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            } else if (units === "hours") {
+                value = Math.floor(timeLeft / (1000 * 60 * 60));
+            } else if (units === "minutes") {
+                value = Math.floor(timeLeft / (1000 * 60));
+            } else if (units === "seconds") {
+                value = Math.floor(timeLeft / 1000);
+            }
+
+            document.getElementById("countdown").innerHTML = `${value} ${units}`;
+
+            // Update progress bar
+            const progressBar = document.getElementById("progress-bar");
+            const progressContainer = document.getElementById("progress-container");
+            const startDate = new Date("August 15, 2023 13:30:00").getTime();
+            const totalTime = targetDate - startDate;
+            const elapsedPercentage = Math.min((currentDate - startDate) / totalTime * 100, 100);
+            
+            progressBar.style.width = `${elapsedPercentage}%`;
+        }
+
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
