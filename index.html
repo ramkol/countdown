@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
+    <title>עד מתי???</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,79 +36,66 @@
             background-color: #f0f0f0;
             border: 1px solid #ddd;
             border-radius: 4px;
-            padding: 10px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow: hidden;
         }
         #progress-bar {
             width: 0;
             height: 20px;
             background-color: #007bff;
-            border-radius: 4px;
-            margin-top: 10px;
         }
         .date-label {
             font-size: 12px;
             color: #666;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
         }
     </style>
 </head>
 <body>
-    <h1>Countdown Timer</h1>
-    
-    <label for="units">Select Countdown Unit:</label>
-    <select id="units">
-        <option value="seconds">Seconds</option>
-        <option value="minutes">Minutes</option>
-        <option value="hours">Hours</option>
-        <option value="days">Days</option>
-    </select>
+<h1>עד מתי???</h1>
 
-    <div id="countdown"></div>
+<label for="units">Select Countdown Unit:</label>
+<select id="units">
+    <option value="seconds">Seconds</option>
+    <option value="minutes">Minutes</option>
+    <option value="hours">Hours</option>
+    <option value="days">Days</option>
+</select>
 
-    <div id="progress-container">
-        <div class="date-label">
-            <span>Start: August 15, 2023 13:30:00</span>
-            <span>End: September 1, 2023 08:00:00</span>
-        </div>
-        <div id="progress-bar"></div>
-    </div>
+<div id="countdown"></div>
 
-    <script>
-        function updateCountdown() {
-            const targetDate = new Date("September 1, 2023 08:00:00").getTime();
-            const currentDate = new Date().getTime();
-            const timeLeft = targetDate - currentDate;
+<div id="progress-container">
+    <div id="progress-bar"></div>
+</div>
 
-            const units = document.getElementById("units").value;
-            let value;
+<script>
+    function updateCountdown() {
+        const targetDate = new Date("September 1, 2023 08:00:00").getTime();
+        const currentDate = new Date().getTime();
+        const timeLeft = targetDate - currentDate;
 
-            if (units === "seconds") {
-                value = Math.floor(timeLeft / 1000);
-            } else if (units === "minutes") {
-                value = Math.floor(timeLeft / (1000 * 60));
-            } else if (units === "hours") {
-                value = Math.floor(timeLeft / (1000 * 60 * 60));
-            } else if (units === "days") {
-                value = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
-            }
+        const units = document.getElementById("units").value;
+        let value;
 
-            document.getElementById("countdown").innerHTML = `${value} ${units}`;
-
-            // Update progress bar
-            const progressBar = document.getElementById("progress-bar");
-            const totalDuration = new Date("September 1, 2023 08:00:00").getTime() - new Date("August 15, 2023 13:30:00").getTime();
-            const elapsedPercentage = Math.min((currentDate - new Date("August 15, 2023 13:30:00").getTime()) / totalDuration * 100, 100);
-            
-            progressBar.style.width = `${elapsedPercentage}%`;
+        if (units === "seconds") {
+            value = Math.floor(timeLeft / 1000);
+        } else if (units === "minutes") {
+            value = Math.floor(timeLeft / (1000 * 60));
+        } else if (units === "hours") {
+            value = Math.floor(timeLeft / (1000 * 60 * 60));
+        } else if (units === "days") {
+            value = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
         }
 
-        setInterval(updateCountdown, 1000);
-    </script>
+        document.getElementById("countdown").innerHTML = `${value} ${units}`;
+
+        // Update progress bar
+        const progressBar = document.getElementById("progress-bar");
+        const totalDuration = new Date("September 1, 2023 08:00:00").getTime() - new Date("August 15, 2023 13:30:00").getTime();
+        const elapsedPercentage = Math.min((currentDate - new Date("August 15, 2023 13:30:00").getTime()) / totalDuration * 100, 100);
+
+        progressBar.style.width = `${elapsedPercentage}%`;
+    }
+
+    setInterval(updateCountdown, 1000);
+</script>
 </body>
 </html>
